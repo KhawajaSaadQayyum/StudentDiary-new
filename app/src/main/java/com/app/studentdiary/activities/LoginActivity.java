@@ -162,6 +162,10 @@ public class LoginActivity extends AppCompatActivity implements Info {
                     if (task.isSuccessful()) {
                         initUserData();
                     } else {
+                        if (task.getException() != null)
+                            Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(this, "Error occurred", Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "initSignIn: " + task.getException().getMessage());
                     }
                 });

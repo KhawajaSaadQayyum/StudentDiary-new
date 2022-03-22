@@ -111,9 +111,11 @@ public class TeacherAttendance extends AppCompatActivity implements Info {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {
                             UserModel userModel = child.getValue(UserModel.class);
-                            if (userModel != null && userModel.getType().equals(PARENT)) {
+                            if (userModel != null
+                                    && userModel.getType().equals(PARENT)
+                                    && userModel.getClassroom().equals(Utils.userModel.getClassroom()))
                                 students.add(userModel);
-                            }
+
                         }
                     }
 
@@ -143,18 +145,20 @@ public class TeacherAttendance extends AppCompatActivity implements Info {
             String classroom = userModel.getClassroom();
             String studentId = userModel.getId();
             String studentName = userModel.getFirstName();
-            String isPresent = "false";
+            String isPresent = "true";
             Attendance attendance = new Attendance(id,
                     date,
                     classroom,
                     studentId,
                     studentName,
                     isPresent);
+
             FirebaseDatabase.getInstance().getReference().child(NODE_ATTENDANCE)
                     .child(Utils.userModel.getClassroom())
                     .child(date)
                     .child(id)
-                    .setValue(attendance);
+                    .setValue(attendance)
+                    .addOnCompleteListener(task -> initAttendanceStudents(date));
         }
 
     }

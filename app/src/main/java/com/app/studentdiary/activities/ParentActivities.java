@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 
 import com.app.studentdiary.R;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
@@ -67,5 +68,9 @@ public class ParentActivities extends AppCompatActivity implements Info{
         typeRecyclerViewAdapter
                 = new TypeRecyclerViewAdapter(this, superList, Info.RV_TYPE_PARENT_ACTIVITY);
         rvAttendance.setAdapter(typeRecyclerViewAdapter);
+    }
+
+    public void back(View view) {
+        finish();
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_lock.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_rectangle_1594.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.234375" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_registration_approval.xml" value="0.25" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_activities.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_attendance.xml" value="0.2" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_class_info.xml" value="0.176" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_dashboard.xml" value="0.234375" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_marks.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_registration.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_attendance.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_dashboard.xml" value="0.234375" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_marks.xml" value="0.176" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_notice.xml" value="0.2" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/dialog_loading.xml" value="0.28703703703703703" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_activity.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_attendance.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_marks.xml" value="0.2" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_teacher_regs.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

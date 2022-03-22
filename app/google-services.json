@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "721568644843",
+    "project_id": "studentdiary-a987b",
+    "storage_bucket": "studentdiary-a987b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721568644843:android:b855afeb7b04a673e3c8ae",
+        "android_client_info": {
+          "package_name": "com.app.studentdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721568644843-br4dlc2m4a1ok5s5orpbu56i8du0l2oa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXfTcrZvy8chQ2klE_5Wzd8MLyrk1b3mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721568644843-br4dlc2m4a1ok5s5orpbu56i8du0l2oa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_lock.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_rectangle_1594.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable/ic_send_24px.xml" value="0.21822916666666667" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.234375" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_registration_approval.xml" value="0.25" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_chat.xml" value="0.2" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_activities.xml" value="0.264" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_attendance.xml" value="0.2" />
@@ -19,7 +21,10 @@
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_marks.xml" value="0.176" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_teacher_notice.xml" value="0.2" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/dialog_loading.xml" value="0.28703703703703703" />
-        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_activity.xml" value="0.264" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/item_chat.xml" value="0.2" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/item_message.xml" value="0.6" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/item_message_sender.xml" value="0.2140625" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_activity.xml" value="0.176" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_attendance.xml" value="0.264" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_marks.xml" value="0.2" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/rv_teacher_regs.xml" value="0.25" />

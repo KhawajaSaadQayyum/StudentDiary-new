@@ -23,12 +23,18 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
     EditText tvMarks;
 
     TextView tvStudentName;
+    TextView tvActivity;
+    TextView tvActivityTitle;
+    TextView tvName;
+    TextView tvMessage;
     CheckBox cbPresent;
 
     TextView tvTitle;
     TextView tvDesc;
     CardView cvDel;
+    CardView cvChat;
     Button btnDel;
+    Button btnChat;
 
     public TypeRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -42,10 +48,17 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         cbPresent = itemView.findViewById(R.id.cb_present);
         tvMarks = itemView.findViewById(R.id.et_marks);
 
+        tvActivityTitle = itemView.findViewById(R.id.tv_activity_title);
+        tvActivity = itemView.findViewById(R.id.tv_activity);
+        tvName = itemView.findViewById(R.id.tv_name);
+        tvMessage = itemView.findViewById(R.id.tv_message);
+
         tvTitle = itemView.findViewById(R.id.tv_title);
         tvDesc = itemView.findViewById(R.id.tv_desc);
         cvDel = itemView.findViewById(R.id.cv_delete);
         btnDel = itemView.findViewById(R.id.btn_del);
+        cvChat = itemView.findViewById(R.id.cv_chat);
+        btnChat = itemView.findViewById(R.id.btn_chat);
     }
 
 }

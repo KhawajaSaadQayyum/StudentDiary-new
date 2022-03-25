@@ -31,7 +31,7 @@ public class AdminDashboard extends AppCompatActivity {
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, AuthLoginActivity.class));
         finish();
     }
 }

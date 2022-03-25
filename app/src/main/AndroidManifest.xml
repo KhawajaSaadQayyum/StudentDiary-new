@@ -15,6 +15,9 @@
             android:name=".activities.ParentActivities"
             android:exported="true" />
         <activity
+            android:name=".activities.ChatActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.ParentMarks"
             android:exported="true" />
         <activity
@@ -44,9 +47,9 @@
         <activity
             android:name=".activities.ParentDashboard"
             android:exported="true" />
-        <activity android:name=".activities.Registration" />
+        <activity android:name=".activities.AuthRegistration" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.AuthLoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

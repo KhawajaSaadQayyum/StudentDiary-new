@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
@@ -19,12 +21,15 @@ import com.app.studentdiary.models.UserModel;
 import com.app.studentdiary.utils.DialogUtils;
 import com.app.studentdiary.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 
 import java.util.Objects;
 
-public class Registration extends AppCompatActivity implements Info {
+public class AuthRegistration extends AppCompatActivity implements Info {
 
     public static Activity context;
 
@@ -135,21 +140,60 @@ public class Registration extends AppCompatActivity implements Info {
         if (!Utils.validEt(etClassroom, strEtClassroom))
             return;
 
-        String type = PARENT;
-        String verStatus = VER_APPROVED;
-        if (rbTeacher.isChecked()) {
-            type = TEACHER;
-            verStatus = VER_PENDING;
-        }
+
+        String type = TEACHER;
+        String verStatus = VER_PENDING;
+        String id = "sad";
         if (rbParent.isChecked()) {
             type = PARENT;
             verStatus = VER_APPROVED;
         }
 
-        String id = "sad";
         userModel = new UserModel(id, strEtFirstName, strEtLastName, strEtClassroom,
                 strEtEmail.trim(), "+" + cpp.getSelectedCountryCode() + strEtPhone, type, verStatus);
 
+        if (type.equals(TEACHER)) {
+            isClassroomExist(userModel);
+            return;
+        }
+
+        initAuth(userModel);
+    }
+
+
+    private void isClassroomExist(UserModel userModel) {
+        dgLoading.show();
+        FirebaseDatabase.getInstance().getReference().child(NODE_USERS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean found = false;
+                        dgLoading.dismiss();
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            UserModel userModel1 = child.getValue(UserModel.class);
+                            if (userModel1 != null && userModel1.getClassroom().equals(strEtClassroom)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        Log.i(TAG, "initAuth: ");
+                        if (!found)
+                            initAuth(userModel);
+                        else
+                            Toast.makeText(AuthRegistration.this,
+                                    "Teacher of this classroom already exist", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void initAuth(UserModel userModel) {
+        Log.i(TAG, "initAuth: " + userModel.getClassroom());
+        Log.i(TAG, "initAuth: " + userModel.getType());
         dgLoading.show();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(strEtEmail, strEtConfirmPassword)
                 .addOnCompleteListener(task -> {
@@ -158,7 +202,7 @@ public class Registration extends AppCompatActivity implements Info {
                         userModel.setId(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                         initData(userModel);
                     } else
-                        Toast.makeText(Registration.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AuthRegistration.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -175,15 +219,12 @@ public class Registration extends AppCompatActivity implements Info {
                             Toast.makeText(this, "Registration pending", Toast.LENGTH_SHORT).show();
                             finish();
                         } else if (userModel.getType().equals(PARENT)) {
-                            startActivity(new Intent(Registration.this, ParentDashboard.class));
-                            LoginActivity.context.finish();
+                            startActivity(new Intent(AuthRegistration.this, ParentDashboard.class));
+                            AuthLoginActivity.context.finish();
                             finish();
                         }
                     } else
-                        Toast.makeText(Registration.this, "ERROR OCCURRED", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(AuthRegistration.this, "ERROR OCCURRED", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

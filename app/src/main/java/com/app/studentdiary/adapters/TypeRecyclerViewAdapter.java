@@ -1,8 +1,10 @@
 package com.app.studentdiary.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.ChatActivity;
 import com.app.studentdiary.info.Info;
 import com.app.studentdiary.models.ActivityPojo;
 import com.app.studentdiary.models.Attendance;
 import com.app.studentdiary.models.Marks;
+import com.app.studentdiary.models.Message;
 import com.app.studentdiary.models.Super;
 import com.app.studentdiary.models.UserModel;
+import com.app.studentdiary.singletons.ActivitySingleton;
 import com.app.studentdiary.utils.Utils;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,6 +44,9 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     @Override
     public TypeRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layout = R.layout.rv_teacher_regs;
+
+        if (type == RV_TYPE_CHATS)
+            layout = R.layout.item_chat;
         if (type == RV_TYPE_ATTENDANCE | type == RV_TYPE_STUDENT_ATTENDANCE)
             layout = R.layout.rv_attendance;
         if (type == RV_TYPE_STUDENT_MARKS | type == RV_TYPE_PARENT_MARKS)
@@ -52,6 +60,10 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull final TypeRecyclerViewHolder holder, int position) {
+        if (type == RV_TYPE_CHATS) {
+            initChats(holder, position);
+            return;
+        }
         if (type == RV_TYPE_ACTIVITY | type == RV_TYPE_PARENT_ACTIVITY) {
             initActivity(holder, position);
             return;
@@ -73,6 +85,29 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         initRegs(holder, position);
     }
 
+    private void initChats(TypeRecyclerViewHolder holder, int position) {
+        Message message = (Message) listInstances.get(position);
+        Log.i(TAG, "initChats: ");
+        if (message.getActivityTitle() != null && !message.getActivityTitle().isEmpty()) {
+            holder.tvActivityTitle.setVisibility(View.VISIBLE);
+            holder.tvActivityTitle.setText(message.getActivityTitle());
+            holder.tvActivity.setText("Context - ");
+            holder.tvActivity.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvActivityTitle.setVisibility(View.GONE);
+            holder.tvActivity.setVisibility(View.GONE);
+        }
+
+        if (message.getAuthor().equals(message.getParentId()))
+            holder.tvName.setText(message.getParentName());
+        else
+            holder.tvName.setText(message.getTeacherName());
+
+        holder.tvMessage.setText(message.getMessageText());
+
+
+    }
+
     private void initActivity(TypeRecyclerViewHolder holder, int position) {
 //      TODO: DOWN CASTING
         ActivityPojo activity = (ActivityPojo) listInstances.get(position);
@@ -81,9 +116,13 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         if (type == RV_TYPE_PARENT_ACTIVITY) {
             holder.cvDel.setVisibility(View.GONE);
             holder.btnDel.setVisibility(View.GONE);
+            holder.cvChat.setVisibility(View.VISIBLE);
+            holder.btnChat.setVisibility(View.VISIBLE);
         } else {
             holder.cvDel.setVisibility(View.VISIBLE);
             holder.btnDel.setVisibility(View.VISIBLE);
+            holder.cvChat.setVisibility(View.GONE);
+            holder.btnChat.setVisibility(View.GONE);
         }
 
         holder.cvDel.setOnClickListener(view -> FirebaseDatabase.getInstance().getReference().child(NODE_ACTIVITY)
@@ -94,6 +133,12 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                 .child(Utils.userModel.getClassroom())
                 .child(activity.getId())
                 .removeValue());
+
+        holder.btnChat.setOnClickListener(view -> {
+            ActivitySingleton.setInstance(activity);
+            context.startActivity(new Intent(context, ChatActivity.class));
+        });
+
 
     }
 

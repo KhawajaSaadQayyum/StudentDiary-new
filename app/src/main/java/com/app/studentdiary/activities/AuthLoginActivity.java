@@ -32,7 +32,7 @@ import java.util.Objects;
  * Password = finalyearproject
  */
 
-public class LoginActivity extends AppCompatActivity implements Info {
+public class AuthLoginActivity extends AppCompatActivity implements Info {
 
     public static Activity context;
     EditText etEmail;
@@ -90,28 +90,28 @@ public class LoginActivity extends AppCompatActivity implements Info {
             switch (Utils.userModel.getType()) {
                 case PARENT:
                     finish();
-                    startActivity(new Intent(LoginActivity.this, ParentDashboard.class));
+                    startActivity(new Intent(AuthLoginActivity.this, ParentDashboard.class));
                     break;
                 case TEACHER:
                     switch (Utils.userModel.getVerStatus()) {
                         case VER_APPROVED:
                             finish();
-                            startActivity(new Intent(LoginActivity.this, TeacherDashboard.class));
+                            startActivity(new Intent(AuthLoginActivity.this, TeacherDashboard.class));
                             break;
                         case VER_REJECTED:
-                            Toast.makeText(LoginActivity.this, "Your verification is rejected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AuthLoginActivity.this, "Your verification is rejected", Toast.LENGTH_SHORT).show();
                             break;
                         case VER_PENDING:
-                            Toast.makeText(LoginActivity.this, "Your verification is still pending", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AuthLoginActivity.this, "Your verification is still pending", Toast.LENGTH_SHORT).show();
                             break;
                     }
                     break;
                 case ADMIN:
-                    startActivity(new Intent(LoginActivity.this, AdminDashboard.class));
+                    startActivity(new Intent(AuthLoginActivity.this, AdminDashboard.class));
                     finish();
                     break;
                 default:
-                    Toast.makeText(LoginActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthLoginActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements Info {
 
 
     public void signUp(View view) {
-        startActivity(new Intent(this, Registration.class));
+        startActivity(new Intent(this, AuthRegistration.class));
     }
 
     public void showPassword(View view) {

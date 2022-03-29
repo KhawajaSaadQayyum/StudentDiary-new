@@ -19,10 +19,11 @@ import com.app.studentdiary.info.Info;
 import com.app.studentdiary.models.ActivityPojo;
 import com.app.studentdiary.models.Attendance;
 import com.app.studentdiary.models.Marks;
-import com.app.studentdiary.models.Message;
+import com.app.studentdiary.models.MessagePojo;
 import com.app.studentdiary.models.Super;
 import com.app.studentdiary.models.UserModel;
 import com.app.studentdiary.singletons.ActivitySingleton;
+import com.app.studentdiary.singletons.CommentSingleton;
 import com.app.studentdiary.utils.Utils;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -47,6 +48,8 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
         if (type == RV_TYPE_CHATS)
             layout = R.layout.item_chat;
+        if (type == RV_TYPE_COMMENTS)
+            layout = R.layout.item_history;
         if (type == RV_TYPE_ATTENDANCE | type == RV_TYPE_STUDENT_ATTENDANCE)
             layout = R.layout.rv_attendance;
         if (type == RV_TYPE_STUDENT_MARKS | type == RV_TYPE_PARENT_MARKS)
@@ -60,10 +63,15 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull final TypeRecyclerViewHolder holder, int position) {
+        if (type == RV_TYPE_COMMENTS) {
+            initComments(holder, position);
+            return;
+        }
         if (type == RV_TYPE_CHATS) {
             initChats(holder, position);
             return;
         }
+
         if (type == RV_TYPE_ACTIVITY | type == RV_TYPE_PARENT_ACTIVITY) {
             initActivity(holder, position);
             return;
@@ -85,12 +93,35 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         initRegs(holder, position);
     }
 
-    private void initChats(TypeRecyclerViewHolder holder, int position) {
-        Message message = (Message) listInstances.get(position);
+    private void initComments(TypeRecyclerViewHolder holder, int position) {
+        MessagePojo messagePojo = (MessagePojo) listInstances.get(position);
         Log.i(TAG, "initChats: ");
-        if (message.getActivityTitle() != null && !message.getActivityTitle().isEmpty()) {
+        if (messagePojo.getActivityTitle() != null && !messagePojo.getActivityTitle().isEmpty()) {
             holder.tvActivityTitle.setVisibility(View.VISIBLE);
-            holder.tvActivityTitle.setText(message.getActivityTitle());
+            holder.tvActivityTitle.setText(messagePojo.getActivityTitle());
+            holder.tvActivity.setText("Activity - ");
+            holder.tvActivity.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvActivityTitle.setVisibility(View.GONE);
+            holder.tvActivity.setVisibility(View.GONE);
+        }
+
+        holder.tvName.setText(messagePojo.getParentName());
+        holder.tvMessage.setText(messagePojo.getMessageText());
+
+        holder.cvClick.setOnClickListener(view -> {
+            CommentSingleton.setInstance(messagePojo);
+            context.startActivity(new Intent(context, ChatActivity.class));
+        });
+
+    }
+
+    private void initChats(TypeRecyclerViewHolder holder, int position) {
+        MessagePojo messagePojo = (MessagePojo) listInstances.get(position);
+        Log.i(TAG, "initChats: ");
+        if (messagePojo.getActivityTitle() != null && !messagePojo.getActivityTitle().isEmpty()) {
+            holder.tvActivityTitle.setVisibility(View.VISIBLE);
+            holder.tvActivityTitle.setText(messagePojo.getActivityTitle());
             holder.tvActivity.setText("Context - ");
             holder.tvActivity.setVisibility(View.VISIBLE);
         } else {
@@ -98,14 +129,28 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             holder.tvActivity.setVisibility(View.GONE);
         }
 
-        if (message.getAuthor().equals(message.getParentId()))
-            holder.tvName.setText(message.getParentName());
-        else
-            holder.tvName.setText(message.getTeacherName());
+        if (messagePojo.getAuthor().equals(messagePojo.getParentId())) {
+            holder.tvName.setText(messagePojo.getParentName());
+            holder.tvName.setTextColor(context.getColor(R.color.yellow));
+        } else {
+            holder.tvName.setText(messagePojo.getTeacherName());
+            holder.tvName.setTextColor(context.getColor(R.color.red));
+        }
 
-        holder.tvMessage.setText(message.getMessageText());
+        holder.cvClick.setOnLongClickListener(view -> {
+            if (messagePojo.getAuthor().equals(Utils.userModel.getId())) {
+                FirebaseDatabase.getInstance().getReference()
+                        .child(NODE_CHATS)
+                        .child(Utils.userModel.getClassroom())
+                        .child(messagePojo.getParentId())
+                        .child(messagePojo.getMessageId())
+                        .removeValue();
+                Toast.makeText(context, "Message Removed", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
 
-
+        holder.tvMessage.setText(messagePojo.getMessageText());
     }
 
     private void initActivity(TypeRecyclerViewHolder holder, int position) {
@@ -145,12 +190,14 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     private void initMarks(TypeRecyclerViewHolder holder, int position) {
 //        TODO: DOWN CASTING
         Marks marks = (Marks) listInstances.get(position);
+        holder.tvStudentName.setText(marks.getStudentName());
         holder.tvMarks.setText(marks.getPercentage());
         holder.tvMarks.setFocusableInTouchMode(false);
         if (type == RV_TYPE_PARENT_MARKS) {
             holder.tvStudentName.setText(marks.getSubject());
             return;
         }
+        holder.tvMarks.setFocusableInTouchMode(true);
         holder.tvMarks.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -160,9 +207,16 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (holder.tvMarks.getText().toString().length() >= 2) {
+                    if (holder.tvMarks.getText().toString().length() >= 3) {
+                        Toast.makeText(context, "Cannot enter more than 2 digits", Toast.LENGTH_SHORT).show();
+                        holder.tvMarks.setText("");
+                        holder.tvMarks.clearFocus();
+                        return;
+                    }
                     holder.tvMarks.clearFocus();
                     marks.setPercentage(holder.tvMarks.getText().toString());
-                    FirebaseDatabase.getInstance().getReference().child(NODE_MARKS)
+                    FirebaseDatabase.getInstance().getReference()
+                            .child(NODE_MARKS)
                             .child(marks.getClassRoom())
                             .child(marks.getSubject())
                             .child(marks.getStudentId())
@@ -186,6 +240,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     private void initAttendance(TypeRecyclerViewHolder holder, int position) {
         Attendance attendance = (Attendance) listInstances.get(position);
+        Log.i(TAG, "initAttendance: " + attendance.getStudentName());
         holder.tvStudentName.setText(attendance.getStudentName());
         holder.cbPresent.setChecked(Boolean.parseBoolean(attendance.getIsPresent()));
         holder.cbPresent.setOnClickListener(view -> {

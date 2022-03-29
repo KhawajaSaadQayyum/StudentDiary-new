@@ -120,7 +120,7 @@ public class AuthRegistration extends AppCompatActivity implements Info {
         finish();
     }
 
-    public void SignUpWithPhone(View view) {
+    public void SignUp(View view) {
         castStrings();
         if (!Utils.validEt(etFirstName, strEtFirstName))
             return;
@@ -134,8 +134,10 @@ public class AuthRegistration extends AppCompatActivity implements Info {
         if (!Utils.validEt(etPhone, strEtPhone))
             return;
 
-        if (!strEtPassword.equals(strEtConfirmPassword))
+        if (!strEtPassword.equals(strEtConfirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
+        }
 
         if (!Utils.validEt(etClassroom, strEtClassroom))
             return;

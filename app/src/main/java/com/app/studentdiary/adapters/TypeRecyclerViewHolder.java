@@ -33,6 +33,7 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView tvDesc;
     CardView cvDel;
     CardView cvChat;
+    CardView cvClick;
     Button btnDel;
     Button btnChat;
 
@@ -56,6 +57,7 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         tvTitle = itemView.findViewById(R.id.tv_title);
         tvDesc = itemView.findViewById(R.id.tv_desc);
         cvDel = itemView.findViewById(R.id.cv_delete);
+        cvClick = itemView.findViewById(R.id.card);
         btnDel = itemView.findViewById(R.id.btn_del);
         cvChat = itemView.findViewById(R.id.cv_chat);
         btnChat = itemView.findViewById(R.id.btn_chat);

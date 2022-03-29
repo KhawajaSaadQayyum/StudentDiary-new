@@ -1,6 +1,6 @@
 package com.app.studentdiary.models;
 
-public class Message extends Super {
+public class MessagePojo extends Super {
     String MessageId;
     String activityId;
     String activityTitle;
@@ -11,8 +11,8 @@ public class Message extends Super {
     String teacherName;
     String author;
 
-    public Message(String messageId, String activityId, String activityTitle, String messageText,
-                   String parentId, String parentName, String teacherId, String teacherName, String author) {
+    public MessagePojo(String messageId, String activityId, String activityTitle, String messageText,
+                       String parentId, String parentName, String teacherId, String teacherName, String author) {
         this.activityId = activityId;
         this.activityTitle = activityTitle;
         MessageId = messageId;
@@ -28,7 +28,7 @@ public class Message extends Super {
         return author;
     }
 
-    public Message() {
+    public MessagePojo() {
     }
 
     public String getActivityId() {

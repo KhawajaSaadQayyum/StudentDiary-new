@@ -323,7 +323,7 @@
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/button_back"
                 android:backgroundTint="@color/yellow"
-                android:onClick="SignUpWithPhone"
+                android:onClick="SignUp"
                 android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />

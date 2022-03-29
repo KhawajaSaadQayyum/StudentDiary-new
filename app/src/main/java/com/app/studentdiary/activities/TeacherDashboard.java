@@ -34,4 +34,11 @@ public class TeacherDashboard extends AppCompatActivity {
         startActivity(new Intent(this, AuthLoginActivity.class));
         finish();
     }
+
+    public void comments(View view) {
+        startActivity(new Intent(this, CommentsActivity.class));
+        finish();
+
+    }
+
 }

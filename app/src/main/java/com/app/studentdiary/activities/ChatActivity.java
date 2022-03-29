@@ -15,10 +15,11 @@ import com.app.studentdiary.R;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
 import com.app.studentdiary.info.Info;
 import com.app.studentdiary.models.ActivityPojo;
-import com.app.studentdiary.models.Message;
+import com.app.studentdiary.models.MessagePojo;
 import com.app.studentdiary.models.Super;
 import com.app.studentdiary.models.UserModel;
 import com.app.studentdiary.singletons.ActivitySingleton;
+import com.app.studentdiary.singletons.CommentSingleton;
 import com.app.studentdiary.utils.DialogUtils;
 import com.app.studentdiary.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +53,6 @@ public class ChatActivity extends AppCompatActivity implements Info {
         tvUsername = findViewById(R.id.tv_username);
         initRv();
         initUsers();
-        getChatHistory();
     }
 
     private void initRv() {
@@ -73,10 +73,11 @@ public class ChatActivity extends AppCompatActivity implements Info {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        loadingDialog.dismiss();
                         superList.clear();
                         for (DataSnapshot child : snapshot.getChildren()) {
-                            Message message = child.getValue(Message.class);
-                            superList.add(message);
+                            MessagePojo messagePojo = child.getValue(MessagePojo.class);
+                            superList.add(messagePojo);
                         }
                         Log.i(TAG, "onDataChange: " + superList);
                         typeRecyclerViewAdapter.notifyDataSetChanged();
@@ -91,8 +92,26 @@ public class ChatActivity extends AppCompatActivity implements Info {
 
     private void initUsers() {
         loadingDialog.show();
-        if (Utils.userModel.getType().equals(TEACHER))
+        if (Utils.userModel.getType().equals(TEACHER)) {
+            teacher = Utils.userModel;
+            FirebaseDatabase.getInstance().getReference()
+                    .child(NODE_USERS)
+                    .child(CommentSingleton.getInstance().getParentId())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            loadingDialog.dismiss();
+                            parent = snapshot.getValue(UserModel.class);
+                            getChatHistory();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
             return;
+        }
         parent = Utils.userModel;
         FirebaseDatabase.getInstance().getReference()
                 .child(NODE_USERS)
@@ -117,6 +136,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
 
                     }
                 });
+        getChatHistory();
     }
 
     public void back(View view) {
@@ -128,6 +148,9 @@ public class ChatActivity extends AppCompatActivity implements Info {
         if (strEtMessage.isEmpty())
             return;
 
+        etMessage.clearFocus();
+        etMessage.setText("");
+
         String id = String.valueOf(superList.size());
 
         ActivityPojo activityPojo = ActivitySingleton.getInstance();
@@ -138,8 +161,20 @@ public class ChatActivity extends AppCompatActivity implements Info {
             activityTitle = activityPojo.getTitle();
         }
 
-        Message message = new Message(id, activityId, activityTitle, strEtMessage, parent.getId(),
-                parent.getFirstName(), teacher.getId(), teacher.getFirstName(), parent.getId());
+        String authorId = parent.getId();
+        if (Utils.userModel.getType().equals(TEACHER)) {
+            authorId = teacher.getId();
+        }
+
+        MessagePojo messagePojo = new MessagePojo(id,
+                "" + activityId,
+                "" + activityTitle,
+                "" + strEtMessage,
+                "" + parent.getId(),
+                "" + parent.getFirstName(),
+                "" + teacher.getId(),
+                "" + teacher.getFirstName(),
+                "" + authorId);
 
         loadingDialog.show();
         FirebaseDatabase.getInstance().getReference()
@@ -147,7 +182,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
                 .child(Utils.userModel.getClassroom())
                 .child(parent.getId())
                 .child(id)
-                .setValue(message).
+                .setValue(messagePojo).
                 addOnCompleteListener(task -> loadingDialog.dismiss());
     }
 

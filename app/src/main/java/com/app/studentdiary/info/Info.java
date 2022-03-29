@@ -24,4 +24,5 @@ public interface Info {
     int RV_TYPE_PARENT_MARKS = 6;
     int RV_TYPE_PARENT_ACTIVITY = 7;
     int RV_TYPE_CHATS = 8;
+    int RV_TYPE_COMMENTS = 9;
 }

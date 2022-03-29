@@ -102,6 +102,11 @@ public class ChatActivity extends AppCompatActivity implements Info {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             loadingDialog.dismiss();
                             parent = snapshot.getValue(UserModel.class);
+                            String te = null;
+                            if (parent != null) {
+                                te = parent.getFirstName() + " " + parent.getLastName();
+                            }
+                            tvUsername.setText(te);
                             getChatHistory();
                         }
 

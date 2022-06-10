@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".activities.parent.ParentStdInfo">
+    tools:context=".activities.parent.SchoolUpdates">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +14,7 @@
         android:layout_marginStart="20dp"
         android:drawablePadding="20dp"
         android:onClick="back"
-        android:text="Student's Information"
+        android:text="School updates"
         android:textColor="@color/text_color"
         android:textSize="20sp"
         app:drawableStartCompat="@drawable/back_arrow"
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:onClick="attendance"
+                android:onClick="schoolNotices"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/attendance"
+                    android:text="School notices"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="25sp" />
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:onClick="marks"
+                android:onClick="schoolTimings"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
@@ -74,34 +74,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Marks"
+                    android:text="School Timings"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="25sp" />
-
-
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
-                android:onClick="feeStatus"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Fee Status"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="25sp" />
-
-
-            </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </ScrollView>
 

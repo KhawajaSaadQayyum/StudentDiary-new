@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.auth;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.parent.ParentDashboard;
 import com.app.studentdiary.info.Info;
 import com.app.studentdiary.models.UserModel;
 import com.app.studentdiary.utils.DialogUtils;

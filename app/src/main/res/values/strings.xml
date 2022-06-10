@@ -211,7 +211,7 @@
     <string name="from">From</string>
     <string name="note_in_case_of_exceptional_timings">Note in case of exceptional timings</string>
     <string name="note">Note <i>(In case of exceptional timings)</i></string>
-    <string name="working_days_of_the_week">Working Days of the week</string>
+    <string name="working_days_of_the_week">School on days of the week</string>
     <string name="days">Days</string>
     <string name="saloon_calender">Saloon Calender</string>
     <string name="timings">Timings</string>
@@ -231,6 +231,7 @@
     <string name="reviews_i_got_from_saloon">Reviews I got from saloons</string>
     <string name="add_new_attendance_for_today">Add new attendance for this date</string>
     <string name="attendance">Attendance</string>
+    <string name="month">Month</string>
 
     <string-array name="array_name">
         <item>Select Subject</item>

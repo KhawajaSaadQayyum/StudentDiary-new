@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.teacher;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.studentdiary.R;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
 import com.app.studentdiary.info.Info;
+import com.app.studentdiary.info.RvType;
 import com.app.studentdiary.models.Attendance;
 import com.app.studentdiary.models.Super;
 import com.app.studentdiary.models.UserModel;
@@ -99,7 +100,7 @@ public class TeacherAttendance extends AppCompatActivity implements Info {
         rvAttendance = findViewById(R.id.rv_regs);
         superList = new ArrayList<>();
         typeRecyclerViewAdapter
-                = new TypeRecyclerViewAdapter(this, superList, Info.RV_TYPE_ATTENDANCE);
+                = new TypeRecyclerViewAdapter(this, superList, RvType.RV_TYPE_ATTENDANCE);
         rvAttendance.setAdapter(typeRecyclerViewAdapter);
     }
 
@@ -125,10 +126,6 @@ public class TeacherAttendance extends AppCompatActivity implements Info {
 
                     }
                 });
-    }
-
-    public void back(View view) {
-        finish();
     }
 
     public void datePicker(View view) {
@@ -164,4 +161,7 @@ public class TeacherAttendance extends AppCompatActivity implements Info {
 
     }
 
+    public void back(View view) {
+        finish();
+    }
 }

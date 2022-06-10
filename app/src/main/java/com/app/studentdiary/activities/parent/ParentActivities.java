@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.parent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.view.View;
 import com.app.studentdiary.R;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
 import com.app.studentdiary.info.Info;
+import com.app.studentdiary.info.RvType;
 import com.app.studentdiary.models.ActivityPojo;
 import com.app.studentdiary.models.Super;
 import com.app.studentdiary.utils.DialogUtils;
@@ -66,7 +67,7 @@ public class ParentActivities extends AppCompatActivity implements Info{
         rvAttendance = findViewById(R.id.rv_regs);
         superList = new ArrayList<>();
         typeRecyclerViewAdapter
-                = new TypeRecyclerViewAdapter(this, superList, Info.RV_TYPE_PARENT_ACTIVITY);
+                = new TypeRecyclerViewAdapter(this, superList, RvType.RV_TYPE_PARENT_ACTIVITY);
         rvAttendance.setAdapter(typeRecyclerViewAdapter);
     }
 

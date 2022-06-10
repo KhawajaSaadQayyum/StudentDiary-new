@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.teacher;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.CommentsActivity;
+import com.app.studentdiary.activities.auth.AuthLoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class TeacherDashboard extends AppCompatActivity {
@@ -37,8 +39,6 @@ public class TeacherDashboard extends AppCompatActivity {
 
     public void comments(View view) {
         startActivity(new Intent(this, CommentsActivity.class));
-        finish();
-
     }
 
 }

@@ -1,5 +1,12 @@
 package com.app.studentdiary.models;
 
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.app.studentdiary.R;
+
 public class MessagePojo extends Super {
     String MessageId;
     String activityId;
@@ -24,11 +31,42 @@ public class MessagePojo extends Super {
         this.author = author;
     }
 
-    public String getAuthor() {
-        return author;
+    public MessagePojo() {
     }
 
-    public MessagePojo() {
+    @BindingAdapter("android:titleLogic")
+    public static void tl(TextView textView, String title) {
+        if (title != null && !title.isEmpty()) {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(title);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
+    }
+
+    @BindingAdapter("android:activityLogic")
+    public static void al(TextView textView, String title) {
+        if (title != null && !title.isEmpty()) {
+            textView.setText("Context - ");
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
+    }
+
+    @BindingAdapter("android:colorAuthor")
+    public static void ca(TextView textView, MessagePojo messagePojo) {
+        if (messagePojo.getAuthor().equals(messagePojo.getParentId())) {
+            textView.setText(messagePojo.getParentName());
+            textView.setTextColor(textView.getContext().getColor(R.color.yellow));
+        } else {
+            textView.setText(messagePojo.getTeacherName());
+            textView.setTextColor(textView.getContext().getColor(R.color.red));
+        }
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public String getActivityId() {

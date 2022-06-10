@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.studentdiary.R;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
 import com.app.studentdiary.info.Info;
+import com.app.studentdiary.info.RvType;
 import com.app.studentdiary.models.ActivityPojo;
 import com.app.studentdiary.models.MessagePojo;
 import com.app.studentdiary.models.Super;
@@ -22,6 +23,7 @@ import com.app.studentdiary.singletons.ActivitySingleton;
 import com.app.studentdiary.singletons.CommentSingleton;
 import com.app.studentdiary.utils.DialogUtils;
 import com.app.studentdiary.utils.Utils;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -59,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
         recyclerView = findViewById(R.id.recyclerview);
         superList = new ArrayList<>();
         typeRecyclerViewAdapter
-                = new TypeRecyclerViewAdapter(this, superList, Info.RV_TYPE_CHATS);
+                = new TypeRecyclerViewAdapter(this, superList, RvType.RV_TYPE_CHATS);
         recyclerView.setAdapter(typeRecyclerViewAdapter);
     }
 
@@ -156,7 +158,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
         etMessage.clearFocus();
         etMessage.setText("");
 
-        String id = String.valueOf(superList.size());
+        String id = String.valueOf(superList.size() + 1);
 
         ActivityPojo activityPojo = ActivitySingleton.getInstance();
         String activityId = "";
@@ -181,14 +183,17 @@ public class ChatActivity extends AppCompatActivity implements Info {
                 "" + teacher.getFirstName(),
                 "" + authorId);
 
-        loadingDialog.show();
         FirebaseDatabase.getInstance().getReference()
                 .child(NODE_CHATS)
                 .child(Utils.userModel.getClassroom())
                 .child(parent.getId())
                 .child(id)
                 .setValue(messagePojo).
-                addOnCompleteListener(task -> loadingDialog.dismiss());
+                addOnCompleteListener(this::initRvScroll);
+    }
+
+    private void initRvScroll(Task<Void> task) {
+        recyclerView.scrollBy(0, 3000);
     }
 
     private void castStrings() {

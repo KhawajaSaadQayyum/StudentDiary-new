@@ -1,9 +1,10 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.auth;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -15,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.parent.ParentDashboard;
+import com.app.studentdiary.activities.teacher.TeacherDashboard;
+import com.app.studentdiary.activities.admin.AdminDashboard;
 import com.app.studentdiary.info.Info;
 import com.app.studentdiary.models.UserModel;
 import com.app.studentdiary.utils.DialogUtils;
@@ -46,7 +50,9 @@ public class AuthLoginActivity extends AppCompatActivity implements Info {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.i(TAG, "onCreate TAG: " + android_id);
         context = this;
 
         etEmail = findViewById(R.id.et_email);

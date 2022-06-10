@@ -12,47 +12,65 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentDiary">
         <activity
+            android:name=".activities.admin.FeeStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.parent.ParentSchoolTimings"
+            android:exported="false" />
+        <activity
+            android:name=".activities.parent.ParentSchoolNotices"
+            android:exported="false" />
+        <activity
+            android:name=".activities.parent.SchoolUpdates"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminSchoolTimings"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminNotices"
+            android:exported="false" />
+        <activity
             android:name=".activities.CommentsActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ParentActivities"
+            android:name=".activities.parent.ParentActivities"
             android:exported="true" />
         <activity
             android:name=".activities.ChatActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ParentMarks"
+            android:name=".activities.parent.ParentMarks"
             android:exported="true" />
         <activity
-            android:name=".activities.TeacherActivityNotice"
+            android:name=".activities.teacher.TeacherActivityNotice"
             android:exported="true" />
         <activity
-            android:name=".activities.TeacherMarksActivity"
+            android:name=".activities.teacher.TeacherMarksActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ParentStdInfo"
+            android:name=".activities.parent.ParentStdInfo"
             android:exported="true" />
         <activity
-            android:name=".activities.ParentAttendance"
+            android:name=".activities.parent.ParentAttendance"
             android:exported="true" />
         <activity
-            android:name=".activities.TeacherAttendance"
+            android:name=".activities.teacher.TeacherAttendance"
             android:exported="true" />
         <activity
-            android:name=".activities.AdminRegistrationApproval"
+            android:name=".activities.admin.AdminRegistrationApproval"
             android:exported="true" />
         <activity
-            android:name=".activities.AdminDashboard"
+            android:name=".activities.admin.AdminDashboard"
             android:exported="true" />
         <activity
-            android:name=".activities.TeacherDashboard"
+            android:name=".activities.teacher.TeacherDashboard"
             android:exported="true" />
         <activity
-            android:name=".activities.ParentDashboard"
+            android:name=".activities.parent.ParentDashboard"
             android:exported="true" />
-        <activity android:name=".activities.AuthRegistration" />
+        <activity android:name=".activities.auth.AuthRegistration" />
         <activity
-            android:name=".activities.AuthLoginActivity"
+            android:name=".activities.auth.AuthLoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

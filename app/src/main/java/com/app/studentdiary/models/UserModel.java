@@ -1,5 +1,14 @@
 package com.app.studentdiary.models;
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.app.studentdiary.R;
+import com.app.studentdiary.info.Info;
+
 public class UserModel extends Super {
     String id;
     String firstName;
@@ -23,6 +32,46 @@ public class UserModel extends Super {
         this.phoneNumber = phoneNumber;
         this.type = type;
         this.classroom = classroom;
+    }
+
+    @BindingAdapter("android:setTextColor")
+    public static void textColor(TextView textView, String verStatus) {
+        if (verStatus.equals(Info.VER_APPROVED)) {
+            textView.setTextColor(textView.getContext().getColor(R.color.green));
+            textView.setText(Info.VER_APPROVED_DISP);
+        }
+        if (verStatus.equals(Info.VER_PENDING)) {
+            textView.setTextColor(textView.getContext().getColor(R.color.yellow_orig));
+            textView.setText(Info.VER_PENDING_DISP);
+        }
+        if (verStatus.equals(Info.VER_REJECTED)) {
+            textView.setTextColor(textView.getContext().getColor(R.color.red));
+            textView.setText(Info.VER_REJECTED_DISP);
+        }
+    }
+
+    @BindingAdapter("android:setButtonApprove")
+    public static void btnAppr(Button textView, String verStatus) {
+        if (verStatus.equals(Info.VER_APPROVED))
+            textView.setVisibility(View.GONE);
+
+        if (verStatus.equals(Info.VER_PENDING))
+            textView.setVisibility(View.VISIBLE);
+
+        if (verStatus.equals(Info.VER_REJECTED))
+            textView.setVisibility(View.GONE);
+    }
+
+    @BindingAdapter("android:setButtonReject")
+    public static void btnReject(Button textView, String verStatus) {
+        if (verStatus.equals(Info.VER_APPROVED))
+            textView.setVisibility(View.GONE);
+
+        if (verStatus.equals(Info.VER_PENDING))
+            textView.setVisibility(View.VISIBLE);
+
+        if (verStatus.equals(Info.VER_REJECTED))
+            textView.setVisibility(View.GONE);
     }
 
     public String getId() {
@@ -88,4 +137,5 @@ public class UserModel extends Super {
     public void setType(String type) {
         this.type = type;
     }
+
 }

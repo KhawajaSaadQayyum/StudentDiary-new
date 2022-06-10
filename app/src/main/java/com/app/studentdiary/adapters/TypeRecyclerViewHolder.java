@@ -11,9 +11,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.databinding.ItemChatBinding;
+import com.app.studentdiary.databinding.RvTeacherRegsBinding;
 
 
 public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    RvTeacherRegsBinding rvTeacherRegsBinding;
+    ItemChatBinding itemChatBinding;
 
     Button btnReject;
     Button btnApprove;
@@ -61,6 +66,16 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
         btnDel = itemView.findViewById(R.id.btn_del);
         cvChat = itemView.findViewById(R.id.cv_chat);
         btnChat = itemView.findViewById(R.id.btn_chat);
+    }
+
+    public TypeRecyclerViewHolder(@NonNull RvTeacherRegsBinding rvTeacherRegsBinding) {
+        super(rvTeacherRegsBinding.getRoot());
+        this.rvTeacherRegsBinding = rvTeacherRegsBinding;
+    }
+
+    public TypeRecyclerViewHolder(@NonNull ItemChatBinding itemChatBinding) {
+        super(itemChatBinding.getRoot());
+        this.itemChatBinding = itemChatBinding;
     }
 
 }

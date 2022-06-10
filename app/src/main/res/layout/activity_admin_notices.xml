@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".activities.teacher.TeacherActivityNotice">
+    tools:context=".activities.admin.AdminNotices">
 
     <TextView
         android:id="@+id/textView"
@@ -103,7 +103,7 @@
                     android:background="@drawable/button_back"
                     android:backgroundTint="@color/yellow"
                     android:onClick="submit"
-                    android:text="Add new activity"
+                    android:text="Add new notice"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -113,11 +113,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Activities"
+                android:text="School Notices"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll" />
+
+            <TextView
+                android:id="@+id/textView_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:drawablePadding="20dp"
+                android:text="No noticies found"
+                android:textColor="@color/text_color"
+                android:textSize="20sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_regs"

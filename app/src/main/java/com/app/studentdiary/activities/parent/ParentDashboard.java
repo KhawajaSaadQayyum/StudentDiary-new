@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.parent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.auth.AuthLoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ParentDashboard extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class ParentDashboard extends AppCompatActivity {
     }
 
     public void schoolUpdates(View view) {
-
+        startActivity(new Intent(this, SchoolUpdates.class));
     }
 
     public void logout(View view) {

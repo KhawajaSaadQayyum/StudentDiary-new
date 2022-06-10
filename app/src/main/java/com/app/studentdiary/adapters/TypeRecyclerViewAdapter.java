@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.studentdiary.R;
 import com.app.studentdiary.activities.ChatActivity;
+import com.app.studentdiary.databinding.ItemChatBinding;
+import com.app.studentdiary.databinding.RvTeacherRegsBinding;
 import com.app.studentdiary.info.Info;
+import com.app.studentdiary.info.RvType;
 import com.app.studentdiary.models.ActivityPojo;
 import com.app.studentdiary.models.Attendance;
+import com.app.studentdiary.models.FeesPojo;
 import com.app.studentdiary.models.Marks;
 import com.app.studentdiary.models.MessagePojo;
 import com.app.studentdiary.models.Super;
@@ -33,9 +37,9 @@ import java.util.List;
 public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerViewHolder> implements Info {
     Context context;
     List<Super> listInstances;
-    int type;
+    RvType type;
 
-    public TypeRecyclerViewAdapter(Context context, List<Super> listInstances, int type) {
+    public TypeRecyclerViewAdapter(Context context, List<Super> listInstances, RvType type) {
         this.context = context;
         this.listInstances = listInstances;
         this.type = type;
@@ -44,53 +48,72 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     @NonNull
     @Override
     public TypeRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layout = R.layout.rv_teacher_regs;
+        int layout = 0;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        if (type == RV_TYPE_CHATS)
-            layout = R.layout.item_chat;
-        if (type == RV_TYPE_COMMENTS)
+        /** Data binding used in following two cases  */
+        if (type == RvType.RV_TYPE_TEACHER_REGS)
+            return new TypeRecyclerViewHolder(RvTeacherRegsBinding.inflate(layoutInflater, parent, false));
+
+        if (type == RvType.RV_TYPE_CHATS)
+            return new TypeRecyclerViewHolder(ItemChatBinding.inflate(layoutInflater, parent, false));
+
+        /**  inflating corresponding recyclerview layouts */
+        if (type == RvType.RV_TYPE_COMMENTS)
             layout = R.layout.item_history;
-        if (type == RV_TYPE_ATTENDANCE | type == RV_TYPE_STUDENT_ATTENDANCE)
+        if (type == RvType.RV_TYPE_ATTENDANCE | type == RvType.RV_TYPE_STUDENT_ATTENDANCE | type == RvType.RV_TYPE_FEES)
             layout = R.layout.rv_attendance;
-        if (type == RV_TYPE_STUDENT_MARKS | type == RV_TYPE_PARENT_MARKS)
+
+        if (type == RvType.RV_TYPE_STUDENT_MARKS | type == RvType.RV_TYPE_PARENT_MARKS)
             layout = R.layout.rv_marks;
-        if (type == RV_TYPE_ACTIVITY | type == RV_TYPE_PARENT_ACTIVITY)
+
+        if (type == RvType.RV_TYPE_ACTIVITY
+                | type == RvType.RV_TYPE_PARENT_ACTIVITY
+                | type == RvType.RV_TYPE_SCHOOL_NOTICES
+                | type == RvType.RV_TYPE_PARENT_SCHOOL_NOTICES)
             layout = R.layout.rv_activity;
 
-        return new TypeRecyclerViewHolder(LayoutInflater.from(context)
-                .inflate(layout, parent, false));
+        return new TypeRecyclerViewHolder(layoutInflater.inflate(layout, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final TypeRecyclerViewHolder holder, int position) {
-        if (type == RV_TYPE_COMMENTS) {
+        if (type == RvType.RV_TYPE_COMMENTS) {
             initComments(holder, position);
             return;
         }
-        if (type == RV_TYPE_CHATS) {
-            initChats(holder, position);
-            return;
-        }
 
-        if (type == RV_TYPE_ACTIVITY | type == RV_TYPE_PARENT_ACTIVITY) {
+        if (type == RvType.RV_TYPE_ACTIVITY
+                | type == RvType.RV_TYPE_PARENT_ACTIVITY
+                | type == RvType.RV_TYPE_PARENT_SCHOOL_NOTICES
+                | type == RvType.RV_TYPE_SCHOOL_NOTICES) {
             initActivity(holder, position);
             return;
         }
 
-        if (type == RV_TYPE_STUDENT_MARKS | type == RV_TYPE_PARENT_MARKS) {
+        if (type == RvType.RV_TYPE_STUDENT_MARKS | type == RvType.RV_TYPE_PARENT_MARKS) {
             initMarks(holder, position);
             return;
         }
-        if (type == RV_TYPE_ATTENDANCE) {
+        if (type == RvType.RV_TYPE_ATTENDANCE | type == RvType.RV_TYPE_FEES) {
             initAttendance(holder, position);
             return;
         }
-        if (type == RV_TYPE_STUDENT_ATTENDANCE) {
+        if (type == RvType.RV_TYPE_STUDENT_ATTENDANCE) {
             initStudentAttendance(holder, position);
             return;
         }
 
-        initRegs(holder, position);
+        if (type == RvType.RV_TYPE_CHATS) {
+            MessagePojo userModel = (MessagePojo) listInstances.get(position);
+            holder.itemChatBinding.setMessage(userModel);
+            holder.itemChatBinding.setAdapter(this);
+            return;
+        }
+
+        UserModel userModel = (UserModel) listInstances.get(position);
+        holder.rvTeacherRegsBinding.setUser(userModel);
+        holder.rvTeacherRegsBinding.setAdapter(this);
     }
 
     private void initComments(TypeRecyclerViewHolder holder, int position) {
@@ -116,49 +139,13 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     }
 
-    private void initChats(TypeRecyclerViewHolder holder, int position) {
-        MessagePojo messagePojo = (MessagePojo) listInstances.get(position);
-        Log.i(TAG, "initChats: ");
-        if (messagePojo.getActivityTitle() != null && !messagePojo.getActivityTitle().isEmpty()) {
-            holder.tvActivityTitle.setVisibility(View.VISIBLE);
-            holder.tvActivityTitle.setText(messagePojo.getActivityTitle());
-            holder.tvActivity.setText("Context - ");
-            holder.tvActivity.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvActivityTitle.setVisibility(View.GONE);
-            holder.tvActivity.setVisibility(View.GONE);
-        }
-
-        if (messagePojo.getAuthor().equals(messagePojo.getParentId())) {
-            holder.tvName.setText(messagePojo.getParentName());
-            holder.tvName.setTextColor(context.getColor(R.color.yellow));
-        } else {
-            holder.tvName.setText(messagePojo.getTeacherName());
-            holder.tvName.setTextColor(context.getColor(R.color.red));
-        }
-
-        holder.cvClick.setOnLongClickListener(view -> {
-            if (messagePojo.getAuthor().equals(Utils.userModel.getId())) {
-                FirebaseDatabase.getInstance().getReference()
-                        .child(NODE_CHATS)
-                        .child(Utils.userModel.getClassroom())
-                        .child(messagePojo.getParentId())
-                        .child(messagePojo.getMessageId())
-                        .removeValue();
-                Toast.makeText(context, "Message Removed", Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        });
-
-        holder.tvMessage.setText(messagePojo.getMessageText());
-    }
-
     private void initActivity(TypeRecyclerViewHolder holder, int position) {
 //      TODO: DOWN CASTING
         ActivityPojo activity = (ActivityPojo) listInstances.get(position);
         holder.tvTitle.setText(activity.getTitle());
         holder.tvDesc.setText(activity.getDesc());
-        if (type == RV_TYPE_PARENT_ACTIVITY) {
+        if (type == RvType.RV_TYPE_PARENT_ACTIVITY
+                | type == RvType.RV_TYPE_PARENT_SCHOOL_NOTICES) {
             holder.cvDel.setVisibility(View.GONE);
             holder.btnDel.setVisibility(View.GONE);
             holder.cvChat.setVisibility(View.VISIBLE);
@@ -169,6 +156,20 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             holder.cvChat.setVisibility(View.GONE);
             holder.btnChat.setVisibility(View.GONE);
         }
+        if (type.equals(RvType.RV_TYPE_SCHOOL_NOTICES)) {
+            holder.cvDel.setOnClickListener(view ->
+                    FirebaseDatabase.getInstance().getReference().child(NODE_SCHOOL_NOTICES)
+                            .child(activity.getId())
+                            .removeValue());
+            holder.btnDel.setOnClickListener(view ->
+                    FirebaseDatabase.getInstance().getReference().child(NODE_SCHOOL_NOTICES)
+                            .child(activity.getId())
+                            .removeValue());
+            return;
+        }
+
+        if (type.equals(RvType.RV_TYPE_PARENT_SCHOOL_NOTICES))
+            return;
 
         holder.cvDel.setOnClickListener(view -> FirebaseDatabase.getInstance().getReference().child(NODE_ACTIVITY)
                 .child(Utils.userModel.getClassroom())
@@ -193,7 +194,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         holder.tvStudentName.setText(marks.getStudentName());
         holder.tvMarks.setText(marks.getPercentage());
         holder.tvMarks.setFocusableInTouchMode(false);
-        if (type == RV_TYPE_PARENT_MARKS) {
+        if (type == RvType.RV_TYPE_PARENT_MARKS) {
             holder.tvStudentName.setText(marks.getSubject());
             return;
         }
@@ -239,8 +240,25 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     }
 
     private void initAttendance(TypeRecyclerViewHolder holder, int position) {
+        if (type == RvType.RV_TYPE_FEES) {
+//            TODO: Work should be done here
+            FeesPojo feesPojo = (FeesPojo) listInstances.get(position);
+            holder.tvStudentName.setText(feesPojo.getStudentName());
+            holder.cbPresent.setChecked(Boolean.parseBoolean(feesPojo.getStatus()));
+            holder.cbPresent.setOnClickListener(view -> {
+                feesPojo.setStatus(String.valueOf(holder.cbPresent.isChecked()));
+                FirebaseDatabase.getInstance().getReference()
+                        .child(NODE_FEES)
+                        .child(feesPojo.getDate())
+                        .child(feesPojo.getStudentClass())
+                        .child(attendance.getId())
+                        .setValue(attendance);
+            });
+
+            return;
+        }
+
         Attendance attendance = (Attendance) listInstances.get(position);
-        Log.i(TAG, "initAttendance: " + attendance.getStudentName());
         holder.tvStudentName.setText(attendance.getStudentName());
         holder.cbPresent.setChecked(Boolean.parseBoolean(attendance.getIsPresent()));
         holder.cbPresent.setOnClickListener(view -> {
@@ -253,40 +271,16 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                     .setValue(attendance);
         });
 
-
     }
 
+    public void apprClick(View view, UserModel userModel) {
+        userModel.setVerStatus(Info.VER_APPROVED);
+        updateUser(userModel);
+    }
 
-    private void initRegs(TypeRecyclerViewHolder holder, int position) {
-        UserModel userModel = (UserModel) listInstances.get(position);
-        holder.tvClassroom.setText(userModel.getClassroom());
-        String name = userModel.getFirstName() + userModel.getLastName();
-        holder.tvTeacherName.setText(name);
-        if (userModel.getVerStatus().equals(Info.VER_APPROVED)) {
-            holder.btnApprove.setVisibility(View.GONE);
-            holder.btnReject.setVisibility(View.GONE);
-            holder.tvVerStatus.setTextColor(context.getColor(R.color.green));
-        }
-        if (userModel.getVerStatus().equals(Info.VER_PENDING)) {
-            holder.btnApprove.setVisibility(View.VISIBLE);
-            holder.btnReject.setVisibility(View.VISIBLE);
-            holder.tvVerStatus.setTextColor(context.getColor(R.color.yellow_orig));
-        }
-        if (userModel.getVerStatus().equals(Info.VER_REJECTED)) {
-            holder.btnApprove.setVisibility(View.GONE);
-            holder.btnReject.setVisibility(View.GONE);
-            holder.tvVerStatus.setTextColor(context.getColor(R.color.red));
-        }
-
-        holder.btnReject.setOnClickListener(view -> {
-            userModel.setVerStatus(Info.VER_REJECTED);
-            updateUser(userModel);
-        });
-        holder.btnApprove.setOnClickListener(view -> {
-            userModel.setVerStatus(Info.VER_APPROVED);
-            updateUser(userModel);
-        });
-
+    public void rejectClick(View view, UserModel userModel) {
+        userModel.setVerStatus(Info.VER_REJECTED);
+        updateUser(userModel);
     }
 
     private void updateUser(UserModel userModel) {

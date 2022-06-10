@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.parent;
 
 import android.content.Intent;
 import android.os.Bundle;

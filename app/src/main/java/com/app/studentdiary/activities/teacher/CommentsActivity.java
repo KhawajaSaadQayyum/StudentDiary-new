@@ -1,4 +1,4 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.teacher;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.app.studentdiary.utils.DialogUtils;
 import com.app.studentdiary.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -44,7 +44,6 @@ public class CommentsActivity extends AppCompatActivity implements Info {
         DialogUtils.initLoadingDialog(loadingDialog);
         initData();
         initRv();
-
     }
 
     private void initRv() {
@@ -57,27 +56,26 @@ public class CommentsActivity extends AppCompatActivity implements Info {
 
     private void initData() {
 //        Fetching data from firebase
-        FirebaseDatabase.getInstance().getReference()
-                .child(NODE_CHATS)
-                .child(Utils.userModel.getClassroom())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot child : snapshot.getChildren())
-                            for (DataSnapshot grandChild : child.getChildren()) {
-                                MessagePojo message = grandChild.getValue(MessagePojo.class);
-                                superList.add(message);
-                                break;
-                            }
-                        Log.i(TAG, "onDataChange: " + superList);
-                        typeRecyclerViewAdapter.notifyDataSetChanged();
-                    }
+        DatabaseReference reference = Utils.getReference().child(NODE_CHATS).child(Utils.userModel.getClassroom());
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren())
+                    for (DataSnapshot grandChild : child.getChildren()) {
+                        MessagePojo message = grandChild.getValue(MessagePojo.class);
+                        superList.add(message);
+                        break;
                     }
-                });
+                Log.i(TAG, "onDataChange: " + superList);
+                typeRecyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void back(View view) {

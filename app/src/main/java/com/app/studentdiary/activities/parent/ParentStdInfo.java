@@ -30,6 +30,7 @@ public class ParentStdInfo extends AppCompatActivity {
     }
 
     public void feeStatus(View view) {
-
+//        TODO: Fees Status working here
+        startActivity(new Intent(this, FeesActivity.class));
     }
 }

@@ -9,6 +9,7 @@ public interface Info {
     String NODE_SCHOOL_NOTICES = "SchoolNotices";
     String NODE_MARKS = "Marks";
     String NODE_CHATS = "Chats";
+    String NODE_ADMIN_COMMENTS = "AdminChats";
     String NODE_SCHOOL = "School";
     String NODE_FEES = "Fees";
 

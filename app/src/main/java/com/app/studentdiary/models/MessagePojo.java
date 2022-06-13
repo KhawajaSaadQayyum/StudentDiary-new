@@ -3,9 +3,12 @@ package com.app.studentdiary.models;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.databinding.BindingAdapter;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.info.Info;
+import com.app.studentdiary.utils.Utils;
 
 public class MessagePojo extends Super {
     String MessageId;
@@ -17,6 +20,7 @@ public class MessagePojo extends Super {
     String teacherId;
     String teacherName;
     String author;
+    boolean isFromAdmin = false;
 
     public MessagePojo(String messageId, String activityId, String activityTitle, String messageText,
                        String parentId, String parentName, String teacherId, String teacherName, String author) {
@@ -54,6 +58,29 @@ public class MessagePojo extends Super {
         }
     }
 
+    @BindingAdapter("android:deleteOnLongClick")
+    public static void dolc(CardView cardView, MessagePojo messagePojo) {
+        cardView.setOnLongClickListener(view -> {
+            if (messagePojo.isFromAdmin()) {
+                Utils.getReference().child(Info.NODE_ADMIN_COMMENTS)
+                        .child(messagePojo.getParentId())
+                        .child(messagePojo.getMessageId())
+                        .removeValue();
+                return false;
+            }
+
+            if (Utils.getCurrentUserId().equals(messagePojo.getAuthor()))
+                Utils.getReference().child(Info.NODE_CHATS)
+                        .child(Utils.userModel.getClassroom())
+                        .child(messagePojo.getParentId())
+                        .child(messagePojo.getMessageId())
+                        .removeValue();
+
+
+            return false;
+        });
+    }
+
     @BindingAdapter("android:colorAuthor")
     public static void ca(TextView textView, MessagePojo messagePojo) {
         if (messagePojo.getAuthor().equals(messagePojo.getParentId())) {
@@ -65,8 +92,20 @@ public class MessagePojo extends Super {
         }
     }
 
+    public boolean isFromAdmin() {
+        return isFromAdmin;
+    }
+
+    public void setFromAdmin(boolean fromAdmin) {
+        isFromAdmin = fromAdmin;
+    }
+
     public String getAuthor() {
         return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getActivityId() {

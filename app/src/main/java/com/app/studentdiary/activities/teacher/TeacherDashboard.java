@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.studentdiary.R;
-import com.app.studentdiary.activities.CommentsActivity;
 import com.app.studentdiary.activities.auth.AuthLoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 

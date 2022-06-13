@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".activities.teacher.CommentsActivity">
+    tools:context=".activities.admin.AdminCommentsActivity">
 
     <TextView
         android:id="@+id/textView"

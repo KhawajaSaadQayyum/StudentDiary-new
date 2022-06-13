@@ -2,13 +2,13 @@ package com.app.studentdiary.activities.admin;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,22 +64,6 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
         DialogUtils.initLoadingDialog(loadingDialog);
         initRv();
         initClassSpinner();
-
-        spnClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (et_date.getText().toString().isEmpty())
-                    Toast.makeText(FeeStatusActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
-                else
-                    initData();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     private void initClassSpinner() {
@@ -94,11 +78,14 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
                             UserModel userModel = child.getValue(UserModel.class);
                             if (userModel == null)
                                 continue;
+                            Log.i(TAG, "onDataChange: " + userModel.getType());
 
                             allUsers.add(userModel);
 
-                            if (userModel.getType().equals(TEACHER) && userModel.getType().equals(VER_APPROVED))
+                            if (userModel.getType().equals(TEACHER) && userModel.getVerStatus().equals(VER_APPROVED)) {
                                 classes.add(userModel.getClassroom());
+                                Log.i(TAG, "onDataChange: ADDING CLASSES ");
+                            }
                         }
                         initSpinnerData(classes);
                     }
@@ -118,7 +105,10 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
         spnClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(getColor(R.color.white));
+                if (et_date.getText().toString().isEmpty())
+                    Toast.makeText(FeeStatusActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
+                else
+                    initData();
             }
 
             @Override
@@ -134,11 +124,10 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
             Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show();
             return;
         }
-
         FirebaseDatabase.getInstance().getReference()
                 .child(NODE_FEES)
                 .child(date)
-                .child(Utils.userModel.getClassroom())
+                .child(spnClass.getSelectedItem().toString())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,6 +138,8 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
                         }
                         if (superList.isEmpty())
                             btnAddFees.setVisibility(View.VISIBLE);
+                        else
+                            btnAddFees.setVisibility(View.GONE);
 
                         typeRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -180,7 +171,10 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
 
     public void monthPicker(View view) {
         MonthPicker pd = new MonthPicker();
-        pd.setListener((datePicker, i, i1, i2) -> et_date.setText(i1 + "-" + i));
+        pd.setListener((datePicker, i, i1, i2) -> {
+            et_date.setText(i1 + "-" + i);
+            initData();
+        });
         pd.show(getSupportFragmentManager(), "");
     }
 
@@ -205,6 +199,7 @@ public class FeeStatusActivity extends AppCompatActivity implements Info {
                     .child(classUser.getId())
                     .setValue(feesPojo);
         }
+        Log.i(TAG, "addFees: Fees should be added");
 
     }
 

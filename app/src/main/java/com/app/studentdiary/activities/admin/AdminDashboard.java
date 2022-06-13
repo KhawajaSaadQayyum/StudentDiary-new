@@ -40,4 +40,8 @@ public class AdminDashboard extends AppCompatActivity {
         startActivity(new Intent(this, FeeStatusActivity.class));
 
     }
+
+    public void comments(View view) {
+        startActivity(new Intent(this, AdminCommentsActivity.class));
+    }
 }

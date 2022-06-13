@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentDiary">
         <activity
+            android:name=".activities.admin.AdminCommentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminChatsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.parent.FeesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.admin.FeeStatusActivity"
             android:exported="false" />
         <activity
@@ -30,7 +39,7 @@
             android:name=".activities.admin.AdminNotices"
             android:exported="false" />
         <activity
-            android:name=".activities.CommentsActivity"
+            android:name=".activities.teacher.CommentsActivity"
             android:exported="true" />
         <activity
             android:name=".activities.parent.ParentActivities"

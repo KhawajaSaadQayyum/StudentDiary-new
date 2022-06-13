@@ -7,6 +7,9 @@ public class FeesPojo extends Super {
     String studentClass;
     String status;
 
+    public FeesPojo() {
+    }
+
     public FeesPojo(String studentName, String studentID, String date, String studentClass, String status) {
         this.studentName = studentName;
         this.studentID = studentID;

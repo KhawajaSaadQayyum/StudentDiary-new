@@ -225,6 +225,52 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="20dp"
+                android:onClick="comments"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        app:lottie_autoPlay="true"
+                        app:lottie_enableMergePathsForKitKatAndAbove="true"
+                        app:lottie_imageAssetsFolder="images/"
+                        app:lottie_rawRes="@raw/comments"
+                        app:lottie_repeatCount="99999"
+                        app:lottie_repeatMode="reverse" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="Comments"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
                 android:onClick="feeStatus"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -245,9 +291,9 @@
                         app:lottie_autoPlay="true"
                         app:lottie_enableMergePathsForKitKatAndAbove="true"
                         app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/home"
+                        app:lottie_rawRes="@raw/money"
                         app:lottie_repeatCount="99999"
-                        app:lottie_repeatMode="reverse" />
+                        app:lottie_repeatMode="restart" />
 
                     <TextView
                         android:layout_width="wrap_content"

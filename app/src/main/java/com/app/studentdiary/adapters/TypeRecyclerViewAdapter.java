@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.studentdiary.R;
 import com.app.studentdiary.activities.ChatActivity;
+import com.app.studentdiary.activities.admin.AdminChatsActivity;
 import com.app.studentdiary.databinding.ItemChatBinding;
 import com.app.studentdiary.databinding.RvTeacherRegsBinding;
 import com.app.studentdiary.info.Info;
@@ -55,13 +56,16 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         if (type == RvType.RV_TYPE_TEACHER_REGS)
             return new TypeRecyclerViewHolder(RvTeacherRegsBinding.inflate(layoutInflater, parent, false));
 
-        if (type == RvType.RV_TYPE_CHATS)
+        if (type == RvType.RV_TYPE_CHATS | type == RvType.RV_TYPE_CHATS_ADMIN)
             return new TypeRecyclerViewHolder(ItemChatBinding.inflate(layoutInflater, parent, false));
 
         /**  inflating corresponding recyclerview layouts */
-        if (type == RvType.RV_TYPE_COMMENTS)
+        if (type == RvType.RV_TYPE_COMMENTS | type == RvType.RV_TYPE_COMMENTS_ADMIN)
             layout = R.layout.item_history;
-        if (type == RvType.RV_TYPE_ATTENDANCE | type == RvType.RV_TYPE_STUDENT_ATTENDANCE | type == RvType.RV_TYPE_FEES)
+        if (type == RvType.RV_TYPE_ATTENDANCE
+                | type == RvType.RV_TYPE_STUDENT_ATTENDANCE
+                | type == RvType.RV_TYPE_FEES_PARENT
+                | type == RvType.RV_TYPE_FEES)
             layout = R.layout.rv_attendance;
 
         if (type == RvType.RV_TYPE_STUDENT_MARKS | type == RvType.RV_TYPE_PARENT_MARKS)
@@ -78,7 +82,8 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull final TypeRecyclerViewHolder holder, int position) {
-        if (type == RvType.RV_TYPE_COMMENTS) {
+        if (type == RvType.RV_TYPE_COMMENTS
+                | type == RvType.RV_TYPE_COMMENTS_ADMIN) {
             initComments(holder, position);
             return;
         }
@@ -95,7 +100,9 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             initMarks(holder, position);
             return;
         }
-        if (type == RvType.RV_TYPE_ATTENDANCE | type == RvType.RV_TYPE_FEES) {
+        if (type == RvType.RV_TYPE_ATTENDANCE
+                | type == RvType.RV_TYPE_FEES_PARENT
+                | type == RvType.RV_TYPE_FEES) {
             initAttendance(holder, position);
             return;
         }
@@ -104,8 +111,9 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             return;
         }
 
-        if (type == RvType.RV_TYPE_CHATS) {
+        if (type == RvType.RV_TYPE_CHATS | type == RvType.RV_TYPE_CHATS_ADMIN) {
             MessagePojo userModel = (MessagePojo) listInstances.get(position);
+            userModel.setFromAdmin(type == RvType.RV_TYPE_CHATS_ADMIN);
             holder.itemChatBinding.setMessage(userModel);
             holder.itemChatBinding.setAdapter(this);
             return;
@@ -134,7 +142,10 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
 
         holder.cvClick.setOnClickListener(view -> {
             CommentSingleton.setInstance(messagePojo);
-            context.startActivity(new Intent(context, ChatActivity.class));
+            if (type == RvType.RV_TYPE_COMMENTS_ADMIN)
+                context.startActivity(new Intent(context, AdminChatsActivity.class));
+            else
+                context.startActivity(new Intent(context, ChatActivity.class));
         });
 
     }
@@ -168,6 +179,14 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             return;
         }
 
+        holder.btnChat.setOnClickListener(view -> {
+            ActivitySingleton.setInstance(activity);
+            if (type == RvType.RV_TYPE_PARENT_SCHOOL_NOTICES)
+                context.startActivity(new Intent(context, AdminChatsActivity.class));
+            else
+                context.startActivity(new Intent(context, ChatActivity.class));
+        });
+
         if (type.equals(RvType.RV_TYPE_PARENT_SCHOOL_NOTICES))
             return;
 
@@ -179,11 +198,6 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                 .child(Utils.userModel.getClassroom())
                 .child(activity.getId())
                 .removeValue());
-
-        holder.btnChat.setOnClickListener(view -> {
-            ActivitySingleton.setInstance(activity);
-            context.startActivity(new Intent(context, ChatActivity.class));
-        });
 
 
     }
@@ -240,8 +254,15 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     }
 
     private void initAttendance(TypeRecyclerViewHolder holder, int position) {
+        Log.i(TAG, "initAttendance: ");
+        if (type == RvType.RV_TYPE_FEES_PARENT) {
+            FeesPojo feesPojo = (FeesPojo) listInstances.get(position);
+            holder.tvStudentName.setText(feesPojo.getDate());
+            holder.cbPresent.setChecked(Boolean.parseBoolean(feesPojo.getStatus()));
+            holder.cbPresent.setClickable(false);
+            return;
+        }
         if (type == RvType.RV_TYPE_FEES) {
-//            TODO: Work should be done here
             FeesPojo feesPojo = (FeesPojo) listInstances.get(position);
             holder.tvStudentName.setText(feesPojo.getStudentName());
             holder.cbPresent.setChecked(Boolean.parseBoolean(feesPojo.getStatus()));
@@ -251,10 +272,9 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                         .child(NODE_FEES)
                         .child(feesPojo.getDate())
                         .child(feesPojo.getStudentClass())
-                        .child(attendance.getId())
-                        .setValue(attendance);
+                        .child(feesPojo.getStudentID())
+                        .setValue(feesPojo);
             });
-
             return;
         }
 

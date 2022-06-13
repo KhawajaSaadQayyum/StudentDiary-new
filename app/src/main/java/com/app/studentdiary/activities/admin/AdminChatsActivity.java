@@ -1,7 +1,8 @@
-package com.app.studentdiary.activities;
+package com.app.studentdiary.activities.admin;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,11 +32,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity implements Info {
+public class AdminChatsActivity extends AppCompatActivity implements Info {
 
     EditText etMessage;
     String strEtMessage;
-    UserModel teacher;
+    UserModel admin;
     Dialog loadingDialog;
     List<Super> superList;
     UserModel parent;
@@ -54,6 +55,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
         tvUsername = findViewById(R.id.tv_username);
         initRv();
         initUsers();
+        Log.i(TAG, "onCreate: ADMIN CHAT ACTIVITY");
     }
 
     @Override
@@ -66,16 +68,16 @@ public class ChatActivity extends AppCompatActivity implements Info {
         recyclerView = findViewById(R.id.recyclerview);
         superList = new ArrayList<>();
         typeRecyclerViewAdapter
-                = new TypeRecyclerViewAdapter(this, superList, RvType.RV_TYPE_CHATS);
+                = new TypeRecyclerViewAdapter(this, superList, RvType.RV_TYPE_CHATS_ADMIN);
         recyclerView.setAdapter(typeRecyclerViewAdapter);
     }
 
     private void getChatHistory() {
         if (!loadingDialog.isShowing())
             loadingDialog.show();
+
         FirebaseDatabase.getInstance().getReference()
-                .child(NODE_CHATS)
-                .child(Utils.userModel.getClassroom())
+                .child(NODE_ADMIN_COMMENTS)
                 .child(parent.getId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -98,8 +100,10 @@ public class ChatActivity extends AppCompatActivity implements Info {
 
     private void initUsers() {
         loadingDialog.show();
-        if (Utils.userModel.getType().equals(TEACHER)) {
-            teacher = Utils.userModel;
+        Log.i(TAG, "initUsers: ");
+        if (Utils.userModel.getType().equals(ADMIN)) {
+            admin = Utils.userModel;
+            Log.i(TAG, "initUsers: Admin Side");
             FirebaseDatabase.getInstance().getReference()
                     .child(NODE_USERS)
                     .child(CommentSingleton.getInstance().getParentId())
@@ -114,6 +118,7 @@ public class ChatActivity extends AppCompatActivity implements Info {
 
                             tvUsername.setText(te);
                             getChatHistory();
+                            Log.i(TAG, "onDataChange: ");
                         }
 
                         @Override
@@ -132,10 +137,9 @@ public class ChatActivity extends AppCompatActivity implements Info {
                         loadingDialog.dismiss();
                         for (DataSnapshot child : snapshot.getChildren()) {
                             UserModel userModel = child.getValue(UserModel.class);
-                            if (userModel != null && userModel.getClassroom().equals(Utils.userModel.getClassroom())
-                                    && userModel.getType().equals(TEACHER)) {
-                                teacher = userModel;
-                                String te = teacher.getFirstName() + " " + teacher.getLastName();
+                            if (userModel != null && userModel.getType().equals(ADMIN)) {
+                                admin = userModel;
+                                String te = admin.getFirstName() + " " + admin.getLastName();
                                 tvUsername.setText(te);
                                 break;
                             }
@@ -169,7 +173,6 @@ public class ChatActivity extends AppCompatActivity implements Info {
             i = superList.size();
         }
         String id = String.valueOf(i);
-
         ActivityPojo activityPojo = ActivitySingleton.getInstance();
         String activityId = "";
         String activityTitle = "";
@@ -179,8 +182,8 @@ public class ChatActivity extends AppCompatActivity implements Info {
         }
 
         String authorId = parent.getId();
-        if (Utils.userModel.getType().equals(TEACHER)) {
-            authorId = teacher.getId();
+        if (Utils.userModel.getType().equals(ADMIN)) {
+            authorId = admin.getId();
         }
 
         MessagePojo messagePojo = new MessagePojo(id,
@@ -189,13 +192,12 @@ public class ChatActivity extends AppCompatActivity implements Info {
                 "" + strEtMessage,
                 "" + parent.getId(),
                 "" + parent.getFirstName(),
-                "" + teacher.getId(),
-                "" + teacher.getFirstName(),
+                "" + admin.getId(),
+                "" + admin.getFirstName(),
                 "" + authorId);
 
         FirebaseDatabase.getInstance().getReference()
-                .child(NODE_CHATS)
-                .child(Utils.userModel.getClassroom())
+                .child(NODE_ADMIN_COMMENTS)
                 .child(parent.getId())
                 .child(id)
                 .setValue(messagePojo).

@@ -54,19 +54,30 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <ca.antonious.materialdaypicker.MaterialDayPicker
-                android:id="@+id/mdp_days"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:clickable="false"
-                android:drawableStart="@android:drawable/stat_sys_phone_call"
-                android:drawablePadding="10dp"
-                android:focusableInTouchMode="false"
-                android:hint="@string/days"
-                android:inputType="text"
-                android:padding="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                android:layout_height="wrap_content">
+
+                <ca.antonious.materialdaypicker.MaterialDayPicker
+                    android:id="@+id/mdp_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:clickable="false"
+                    android:drawableStart="@android:drawable/stat_sys_phone_call"
+                    android:drawablePadding="10dp"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/days"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="action"
+                    />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

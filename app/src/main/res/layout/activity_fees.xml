@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".activities.teacher.CommentsActivity">
+    tools:context=".activities.parent.FeesActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +15,7 @@
         android:layout_marginStart="20dp"
         android:drawablePadding="20dp"
         android:onClick="back"
-        android:text="Comments"
+        android:text="Fees status"
         android:textColor="@color/text_color"
         android:textSize="20sp"
         app:drawableStartCompat="@drawable/back_arrow"
@@ -23,13 +24,19 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_comments"
+        android:id="@+id/rv_regs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView"
-        tools:listitem="@layout/item_history" />
+        tools:listitem="@layout/rv_attendance">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -52,5 +59,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

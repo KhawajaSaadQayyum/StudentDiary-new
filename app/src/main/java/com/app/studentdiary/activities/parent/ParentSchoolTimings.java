@@ -83,4 +83,7 @@ public class ParentSchoolTimings extends AppCompatActivity implements Info {
     }
 
 
+    public void action(View view) {
+
+    }
 }

@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.studentdiary.R;
+import com.app.studentdiary.activities.admin.AdminNotices;
 import com.app.studentdiary.adapters.TypeRecyclerViewAdapter;
 import com.app.studentdiary.info.Info;
 import com.app.studentdiary.info.RvType;
@@ -92,11 +94,20 @@ public class TeacherActivityNotice extends AppCompatActivity implements Info {
             return;
         if (!Utils.validEt(etTitle, strEtTitle))
             return;
-        String id = UUID.randomUUID().toString();
+        String id = superList.size() + "";
         FirebaseDatabase.getInstance().getReference().child(NODE_ACTIVITY)
                 .child(Utils.userModel.getClassroom())
                 .child(id)
-                .setValue(new ActivityPojo(id, Utils.userModel.getClassroom(), strEtTitle, strEtDesc));
+                .setValue(new ActivityPojo(id, Utils.userModel.getClassroom(), strEtTitle, strEtDesc))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        etDesc.setText("");
+                        etTitle.setText("");
+                        Toast.makeText(TeacherActivityNotice.this, "Notice Submitted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TeacherActivityNotice.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 

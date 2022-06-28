@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_group_648.xml" value="0.143" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_group_650.xml" value="0.143" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_group_654.xml" value="0.143" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.152" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_lock.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/ic_rectangle_1594.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/pager_dot_not_selected.xml" value="0.1" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable-v24/pager_dot_selected.xml" value="0.1" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable/ic_done_fill0_wght400_grad0_opsz48.xml" value="0.152" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/drawable/ic_send_24px.xml" value="0.21822916666666667" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_chats.xml" value="0.25" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_comments.xml" value="0.2359375" />
@@ -14,7 +22,7 @@
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_admin_school_timings.xml" value="0.176" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_chat.xml" value="0.2" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_comments.xml" value="0.1796875" />
-        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_fee_status.xml" value="0.25" />
+        <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_fee_status.xml" value="0.2" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_fees.xml" value="0.25" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Jhony Dev/AndroidStudioProjects/StudentDiary/app/src/main/res/layout/activity_parent_activities.xml" value="0.264" />

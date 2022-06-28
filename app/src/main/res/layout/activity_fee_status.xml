@@ -114,6 +114,26 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="20dp"
+        android:onClick="back"
+        app:cardBackgroundColor="@color/yellow"
+        app:cardCornerRadius="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/ic_done_fill0_wght400_grad0_opsz48"
+            app:tint="@color/white" />
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <ImageView
         android:id="@+id/imageView"

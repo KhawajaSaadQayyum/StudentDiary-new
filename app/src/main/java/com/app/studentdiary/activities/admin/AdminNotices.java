@@ -2,9 +2,11 @@ package com.app.studentdiary.activities.admin;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class AdminNotices extends AppCompatActivity implements Info {
 
@@ -54,7 +56,6 @@ public class AdminNotices extends AppCompatActivity implements Info {
         initData();
 
 
-
     }
 
     private void initData() {
@@ -68,7 +69,7 @@ public class AdminNotices extends AppCompatActivity implements Info {
                             ActivityPojo activityPojo = child.getValue(ActivityPojo.class);
                             superList.add(activityPojo);
                         }
-
+                        Collections.reverse(superList);
                         if (superList.isEmpty())
                             tvNoData.setVisibility(View.VISIBLE);
                         else
@@ -97,15 +98,27 @@ public class AdminNotices extends AppCompatActivity implements Info {
     }
 
     public void submit(View view) {
+        Log.i(TAG, "submit: BUTTON SUBMITTED");
         castStrings();
         if (!Utils.validEt(etDesc, strEtDesc))
             return;
         if (!Utils.validEt(etTitle, strEtTitle))
             return;
-        String id = UUID.randomUUID().toString();
+        Log.i(TAG, "submit: INIT FIREBASE");
+
+        String id = superList.size() + "";
         FirebaseDatabase.getInstance().getReference().child(NODE_SCHOOL_NOTICES)
                 .child(id)
-                .setValue(new ActivityPojo(id, Utils.userModel.getClassroom(), strEtTitle, strEtDesc));
+                .setValue(new ActivityPojo(id, Utils.userModel.getClassroom(), strEtTitle, strEtDesc))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        etDesc.setText("");
+                        etTitle.setText("");
+                        Toast.makeText(AdminNotices.this, "Notice Submitted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AdminNotices.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
